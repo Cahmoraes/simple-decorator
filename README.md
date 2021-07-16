@@ -1,4 +1,3 @@
-# simple-decorator
 <h3 align="center">
   <a href="https://cahmoraes.github.io/simple-decorator-examples/" target="_blank">Simple Decorator</a>
 </h3>
@@ -11,6 +10,6 @@
 
 <h3>Exemplos de uso:</h3>
 <p>
- Todos os exemplos de uso estão listados aqui:
+ Todos os exemplos de uso poderão ser encontrados no seguinte link:
  <a href="https://cahmoraes.github.io/simple-decorator-examples/" target="_blank">Simple Decorator</a>
 </p>
