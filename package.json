@@ -1,0 +1,16 @@
+{
+  "name": "simple-decorator",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "keywords": [
+    "brasil",
+    "programação funcional",
+    "decorators",
+    "design pattern",
+    "decorator"
+  ],
+  "description": "API para auxiliar a implementação do design pattern decorator",
+  "repository": "https://github.com/Cahmoraes/simple-decorator",
+  "author": "Cahmoraes <ike.moraes93@gmail.com>"
+}
