@@ -1,1 +1,93 @@
-"use strict";function _typeof(a){"@babel/helpers - typeof";return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a},_typeof(a)}var sd=function(){return{property:function property(a,b){try{if("object"!==_typeof(a))throw new Error("ThisArgs should be an Object Instance");if("object"!==_typeof(b))throw new Error("handler should be an Object");Object.keys(b).forEach(function(c){if(Array.isArray(b[c]))b[c].forEach(function(b){b(a,c)});else{var d=b[c];if("function"!=typeof d)throw new Error("decorator should be a function");d(a,c)}})}catch(a){console.error(a.message)}},method:function method(a,b){try{if("function"!=typeof a)throw new Error("Clazz should be a Constructor Function");if("object"!==_typeof(b))throw new Error("handler should be an Object");Object.keys(b).forEach(function(c){if(Array.isArray(b[c]))b[c].reverse().forEach(function(b){var d=a.prototype[c];if("function"!=typeof d)throw new Error("".concat(c," isn't at prototype of ").concat(a.name));a.prototype[c]=function(){for(var a=arguments.length,e=Array(a),f=0;f<a;f++)e[f]=arguments[f];return b(d.bind(this),c,e)}});else{var d=a.prototype[c];if("function"!=typeof d)throw new Error("".concat(c," isn't at prototype of ").concat(a.name));var e=b[c];a.prototype[c]=function(){for(var a=arguments.length,b=Array(a),f=0;f<a;f++)b[f]=arguments[f];return e(d.bind(this),c,b)}}})}catch(a){console.error(a.message)}}}}();module.exports=sd;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function isArray(object) {
+    return Array.isArray(object);
+}
+var sd = (function () {
+    var simpleDecorator = {
+        /**
+         * @param {object} thisArg
+         * @param {object} handler
+         * */
+        property: function (thisArg, handler) {
+            try {
+                if (typeof thisArg !== 'object') {
+                    throw new Error('ThisArgs should be an Object Instance');
+                }
+                if (typeof handler !== 'object') {
+                    throw new Error('handler should be an Object');
+                }
+                Object.keys(handler).forEach(function (property) {
+                    var handlers = handler[property];
+                    if (isArray(handlers)) {
+                        handlers.forEach(function (decorator) {
+                            decorator(thisArg, property);
+                        });
+                    }
+                    else {
+                        var decorator = handler[property];
+                        if (typeof decorator !== 'function') {
+                            throw new Error('decorator should be a function');
+                        }
+                        decorator(thisArg, property);
+                    }
+                });
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        },
+        /**
+         * @param {function} clazz
+         * @param {object} handler
+         * */
+        method: function (clazz, handler) {
+            try {
+                if (typeof clazz !== 'function') {
+                    throw new Error('Clazz should be a Constructor Function');
+                }
+                if (typeof handler !== 'object') {
+                    throw new Error('handler should be an Object');
+                }
+                Object.keys(handler).forEach(function (property) {
+                    var handlers = handler[property];
+                    if (isArray(handlers)) {
+                        handlers.reverse().forEach(function (decorator) {
+                            var method = clazz.prototype[property];
+                            if (typeof method !== 'function') {
+                                throw new Error("".concat(property, " isn't at prototype of ").concat(clazz.name));
+                            }
+                            clazz.prototype[property] = function () {
+                                var args = [];
+                                for (var _i = 0; _i < arguments.length; _i++) {
+                                    args[_i] = arguments[_i];
+                                }
+                                return decorator(method.bind(this), property, args);
+                            };
+                        });
+                    }
+                    else {
+                        var method_1 = clazz.prototype[property];
+                        if (typeof method_1 !== 'function') {
+                            throw new Error("".concat(property, " isn't at prototype of ").concat(clazz.name));
+                        }
+                        var decorator_1 = handler[property];
+                        clazz.prototype[property] = function () {
+                            var args = [];
+                            for (var _i = 0; _i < arguments.length; _i++) {
+                                args[_i] = arguments[_i];
+                            }
+                            return decorator_1(method_1.bind(this), property, args);
+                        };
+                    }
+                });
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        },
+    };
+    return simpleDecorator;
+})();
+exports.default = sd;
+//# sourceMappingURL=sd.js.map
